@@ -1,0 +1,105 @@
+name: estoque-app
+
+models:
+  Usuario:
+    nome: string:100
+    email: string:100:unique
+    senha: string
+    tipo: enum:Administrador,Vendedor,Estoquista
+
+  Categoria:
+    nome: string:100:unique
+
+  Fornecedor:
+    nome: string:100
+    contato: string:100:nullable
+    cnpj: string:20:unique,nullable
+    email: string:100:nullable
+    telefone: string:20:nullable
+
+  Produto:
+    nome: string:100
+    descricao: text:nullable
+    preco: decimal:10,2
+    estoque: integer:default(0)
+    categoria_id: id:nullable
+    fornecedor_id: id:nullable
+
+  MovimentacaoEstoque:
+    produto_id: id
+    usuario_id: id:nullable
+    tipo: enum:entrada,saida
+    quantidade: integer
+    motivo: string:255
+
+  Venda:
+    usuario_id: id:nullable
+    cliente_nome: string:100
+    total: decimal:10,2
+    forma_pagamento: enum:Cartão,PIX,Dinheiro,Boleto
+    nota_fiscal: string:50:unique,nullable
+
+  VendaProduto:
+    venda_id: id
+    produto_id: id
+    quantidade: integer
+    preco_unitario: decimal:10,2
+
+controllers:
+  UsuarioController:
+    resource
+  CategoriaController:
+    resource
+  FornecedorController:
+    resource
+  ProdutoController:
+    resource
+  MovimentacaoEstoqueController:
+    resource
+  VendaController:
+    resource
+
+requests:
+  StoreUsuarioRequest:
+    nome: required|string|max:100
+    email: required|email|unique:usuarios,email
+    senha: required|string|min:6
+    tipo: required|in:Administrador,Vendedor,Estoquista
+
+  StoreProdutoRequest:
+    nome: required|string|max:100
+    descricao: nullable|string
+    preco: required|numeric
+    estoque: required|integer
+    categoria_id: nullable|exists:categorias,id
+    fornecedor_id: nullable|exists:fornecedores,id
+
+  StoreVendaRequest:
+    usuario_id: nullable|exists:usuarios,id
+    cliente_nome: required|string|max:100
+    total: required|numeric
+    forma_pagamento: required|in:Cartão,PIX,Dinheiro,Boleto
+    nota_fiscal: nullable|string|unique:vendas,nota_fiscal
+    produtos: required|array|min:1
+    produtos.*.produto_id: required|exists:produtos,id
+    produtos.*.quantidade: required|integer|min:1
+    produtos.*.preco_unitario: required|numeric
+
+resources:
+  UsuarioResource:
+    fields: [id, nome, email, tipo, created_at]
+
+  CategoriaResource:
+    fields: [id, nome, created_at]
+
+  FornecedorResource:
+    fields: [id, nome, contato, cnpj, email, telefone, created_at]
+
+  ProdutoResource:
+    fields: [id, nome, preco, estoque, 'categoria.nome', 'fornecedor.nome', created_at]
+
+  MovimentacaoEstoqueResource:
+    fields: [id, produto_id, usuario_id, tipo, quantidade, motivo, created_at]
+
+  VendaResource:
+    fields: [id, usuario_id, cliente_nome, total, forma_pagamento, nota_fiscal, created_at]

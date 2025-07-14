@@ -1,0 +1,80 @@
+created:
+    - app/Http/Controllers/UsuarioController.php
+    - app/Http/Controllers/CategoriaController.php
+    - app/Http/Controllers/FornecedorController.php
+    - app/Http/Controllers/ProdutoController.php
+    - app/Http/Controllers/MovimentacaoEstoqueController.php
+    - app/Http/Controllers/VendaController.php
+    - database/factories/UsuarioFactory.php
+    - database/factories/CategoriaFactory.php
+    - database/factories/FornecedorFactory.php
+    - database/factories/ProdutoFactory.php
+    - database/factories/MovimentacaoEstoqueFactory.php
+    - database/factories/VendaFactory.php
+    - database/factories/VendaProdutoFactory.php
+    - database/migrations/2025_07_14_205249_create_usuarios_table.php
+    - database/migrations/2025_07_14_205250_create_categorias_table.php
+    - database/migrations/2025_07_14_205251_create_fornecedors_table.php
+    - database/migrations/2025_07_14_205252_create_produtos_table.php
+    - database/migrations/2025_07_14_205253_create_movimentacao_estoques_table.php
+    - database/migrations/2025_07_14_205254_create_vendas_table.php
+    - database/migrations/2025_07_14_205255_create_venda_produtos_table.php
+    - app/Models/Usuario.php
+    - app/Models/Categoria.php
+    - app/Models/Fornecedor.php
+    - app/Models/Produto.php
+    - app/Models/MovimentacaoEstoque.php
+    - app/Models/Venda.php
+    - app/Models/VendaProduto.php
+    - tests/Feature/Http/Controllers/UsuarioControllerTest.php
+    - tests/Feature/Http/Controllers/CategoriaControllerTest.php
+    - tests/Feature/Http/Controllers/FornecedorControllerTest.php
+    - tests/Feature/Http/Controllers/ProdutoControllerTest.php
+    - tests/Feature/Http/Controllers/MovimentacaoEstoqueControllerTest.php
+    - tests/Feature/Http/Controllers/VendaControllerTest.php
+    - app/Http/Requests/UsuarioStoreRequest.php
+    - app/Http/Requests/UsuarioUpdateRequest.php
+    - app/Http/Requests/CategoriumStoreRequest.php
+    - app/Http/Requests/CategoriumUpdateRequest.php
+    - app/Http/Requests/FornecedorStoreRequest.php
+    - app/Http/Requests/FornecedorUpdateRequest.php
+    - app/Http/Requests/ProdutoStoreRequest.php
+    - app/Http/Requests/ProdutoUpdateRequest.php
+    - app/Http/Requests/MovimentacaoEstoqueStoreRequest.php
+    - app/Http/Requests/MovimentacaoEstoqueUpdateRequest.php
+    - app/Http/Requests/VendaStoreRequest.php
+    - app/Http/Requests/VendaUpdateRequest.php
+    - resources/views/usuario/index.blade.php
+    - resources/views/usuario/create.blade.php
+    - resources/views/usuario/show.blade.php
+    - resources/views/usuario/edit.blade.php
+    - resources/views/categorium/index.blade.php
+    - resources/views/categorium/create.blade.php
+    - resources/views/categorium/show.blade.php
+    - resources/views/categorium/edit.blade.php
+    - resources/views/fornecedor/index.blade.php
+    - resources/views/fornecedor/create.blade.php
+    - resources/views/fornecedor/show.blade.php
+    - resources/views/fornecedor/edit.blade.php
+    - resources/views/produto/index.blade.php
+    - resources/views/produto/create.blade.php
+    - resources/views/produto/show.blade.php
+    - resources/views/produto/edit.blade.php
+    - resources/views/movimentacaoEstoque/index.blade.php
+    - resources/views/movimentacaoEstoque/create.blade.php
+    - resources/views/movimentacaoEstoque/show.blade.php
+    - resources/views/movimentacaoEstoque/edit.blade.php
+    - resources/views/venda/index.blade.php
+    - resources/views/venda/create.blade.php
+    - resources/views/venda/show.blade.php
+    - resources/views/venda/edit.blade.php
+updated:
+    - routes/web.php
+models:
+    Usuario: { nome: 'string:100', email: 'string:100:unique', senha: string, tipo: 'enum:Administrador,Vendedor,Estoquista' }
+    Categoria: { nome: 'string:100:unique' }
+    Fornecedor: { nome: 'string:100', contato: 'string:100:nullable', cnpj: 'string:20:unique,nullable', email: 'string:100:nullable', telefone: 'string:20:nullable' }
+    Produto: { nome: 'string:100', descricao: 'text:nullable', preco: 'decimal:10,2', estoque: 'integer:default(0)', categoria_id: 'id:nullable', fornecedor_id: 'id:nullable' }
+    MovimentacaoEstoque: { produto_id: id, usuario_id: 'id:nullable', tipo: 'enum:entrada,saida', quantidade: integer, motivo: 'string:255' }
+    Venda: { usuario_id: 'id:nullable', cliente_nome: 'string:100', total: 'decimal:10,2', forma_pagamento: 'enum:Cartão,PIX,Dinheiro,Boleto', nota_fiscal: 'string:50:unique,nullable' }
+    VendaProduto: { venda_id: id, produto_id: id, quantidade: integer, preco_unitario: 'decimal:10,2' }
