@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Model
 {
     use HasFactory;
+    use HasApiTokens, HasFactory;
+    protected $hidden = ['senha'];
+
 
     /**
      * The attributes that are mass assignable.
@@ -15,11 +19,12 @@ class Usuario extends Model
      * @var array
      */
     protected $fillable = [
-        'nome',
-        'email',
-        'senha',
-        'tipo',
-    ];
+    'nome',
+    'email',
+    'pin',       // 👈 adicione isto
+    'senha',
+    'tipo',
+];
 
     /**
      * Get the attributes that should be cast.

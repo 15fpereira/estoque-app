@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 100);
             $table->string('email', 100);
+            $table->string('pin', 4);//->after('email');
             $table->string('senha');
             $table->enum('tipo', ["Administrador","Vendedor","Estoquista"]);
             $table->timestamps();
